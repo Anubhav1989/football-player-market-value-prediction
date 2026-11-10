@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Football Player Market Value Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>⚽ Market Value Predictor</h1>
+    <p>Browse {{ "{:,}".format(n_players) }} players and compare the model's estimate with their Transfermarkt value.</p>
+    <p class="snapshot">Data up to 12 June 2026. Transfers and value changes after that date are not included.</p>
+  </header>
+
+  <main class="pitch">
+    <section>
+      <h2>Find a player</h2>
+      <div class="grid">
+        <label>League
+          <select id="league">
+            <option value="">All leagues</option>
+            {% for l in leagues %}<option value="{{ l.code }}">{{ l.name }}</option>{% endfor %}
+          </select>
+        </label>
+        <label>Nation
+          <select id="country">
+            <option value="">All nations</option>
+            {% for c in countries %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+          </select>
+        </label>
+        <label>Position
+          <select id="position">
+            <option value="">All positions</option>
+            {% for p in positions %}<option value="{{ p }}">{{ p }}</option>{% endfor %}
+          </select>
+        </label>
+        <label>Search by name
+          <input type="search" id="q" placeholder="e.g. Silva">
+        </label>
+      </div>
+    </section>
+
+    <div class="browser">
+      <div>
+        <div class="count" id="count"></div>
+        <div class="list" id="list"></div>
+      </div>
+      <div class="card" id="card">
+        <p class="hint">Select a player from the list to see their estimated value.</p>
+      </div>
+    </div>
+  </main>
+
+  <p class="foot">Tuned Gradient Boosting model. Club form covers the last 12 months up to 12 June 2026, and each player's league and value are as of that date. The range shows the model's typical error, so treat the estimate as approximate. Players marked "training set" were used to fit the model, so their estimates look better than they would for unseen players.</p>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
